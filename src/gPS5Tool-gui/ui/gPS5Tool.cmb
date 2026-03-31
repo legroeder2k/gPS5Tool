@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!DOCTYPE cambalache-project SYSTEM "cambalache-project.dtd">
+<!-- Created with Cambalache 1.0 -->
+<cambalache-project version="1.0.0" target_tk="gtk-4.0" depends="libadwaita-1">
+  <ui filename="mainWindow.ui" sha256="20a4a953ac4682ed03ae49c9609315e55229e53d675297db8466f1eda36bc243"/>
+  <ui filename="portChooser.ui" sha256="be3bf61582a572fa25c08618fb31ca52ce9e16b6bbb1cda2384e861fd6accdf9"/>
+</cambalache-project>

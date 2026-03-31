@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 1.0 -->
+<interface>
+  <!-- interface-name portChooser.ui -->
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkDialog" id="port_chooser">
+    <property name="title">Select serial port</property>
+    <child internal-child="action_area">
+      <object class="GtkBox">
+        <child>
+          <object class="GtkBox">
+            <child>
+              <object class="GtkButton" id="connect_button">
+                <property name="label">Connect</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="cancel_button">
+                <property name="label">Cancel</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="min-content-height">150</property>
+            <child>
+              <object class="GtkListView" id="ports_list"/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

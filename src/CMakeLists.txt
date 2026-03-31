@@ -1,0 +1,1 @@
+add_subdirectory(gPS5Tool-gui)

@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 1.0 -->
+<interface>
+  <!-- interface-name gPS5Tool.ui -->
+  <requires lib="gtk" version="4.20"/>
+  <object class="GtkApplicationWindow" id="main_window">
+    <property name="default-height">450</property>
+    <property name="default-width">850</property>
+    <property name="icon-name">pda</property>
+    <property name="title">PS5 Debug Tool</property>
+    <child>
+      <object class="GtkNotebook">
+        <child>
+          <object class="GtkGrid" id="tab-page-1">
+            <property name="column-spacing">6</property>
+            <property name="margin-bottom">6</property>
+            <property name="margin-end">6</property>
+            <property name="margin-start">6</property>
+            <property name="margin-top">6</property>
+            <property name="row-spacing">6</property>
+            <child>
+              <object class="GtkActionBar">
+                <child>
+                  <object class="GtkButton" id="connect_button">
+                    <property name="hexpand">True</property>
+                    <property name="label">Connect</property>
+                    <style/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="read_codes">
+                    <property name="icon-name">network-receive</property>
+                    <property name="tooltip-text">Read error codes</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="clear_codes">
+                    <property name="icon-name">process-stop</property>
+                    <property name="tooltip-text">Delete error codes</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSeparator"/>
+                </child>
+                <child>
+                  <object class="GtkButton" id="update_codes">
+                    <property name="icon-name">document-save</property>
+                    <property name="tooltip-markup">Update code database</property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">3</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="hexpand">True</property>
+                <property name="min-content-height">160</property>
+                <property name="vexpand">True</property>
+                <child>
+                  <object class="GtkTextView" id="text_output">
+                    <property name="bottom-margin">2</property>
+                    <property name="buffer">log_buffer</property>
+                    <property name="editable">False</property>
+                    <property name="left-margin">2</property>
+                    <property name="right-margin">2</property>
+                    <property name="top-margin">2</property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">3</property>
+                  <property name="row">1</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStatusbar" id="status_bar">
+                <child internal-child="message_area">
+                  <object class="GtkBox">
+                    <child>
+                      <object class="GtkLabel" id="db_status_label"/>
+                    </child>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">3</property>
+                  <property name="row">2</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel">
+            <property name="label">UART Functions</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkTextBuffer" id="log_buffer">
+    <property name="text">Lorem ipsum sit dolor si amicet!</property>
+  </object>
+</interface>
