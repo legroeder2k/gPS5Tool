@@ -26,15 +26,17 @@
 #include <gtkmm.h>
 
 #include "serial/CommunicationLayer.h"
+#include "data/CodeDatabase.h"
 
 class SerialPort;
 
 class MainApplication : public Gtk::Application
 {
 public:
-    MainApplication() : Gtk::Application("rocks.legroeder.gPS5Tool") { }
+    MainApplication();
 
 private:
+    CodeDatabase _codeDatabase;
     Glib::Dispatcher _communicationDispatcher;
     Glib::RefPtr<Gtk::Builder> _builder = nullptr;
     Gtk::ApplicationWindow* _window = nullptr;
@@ -46,7 +48,6 @@ private:
     Glib::RefPtr<Gtk::Button> _updateErrorCodesButton = nullptr;
 
     Glib::RefPtr<Gtk::Label> _dbStatusLabel = nullptr;
-
     std::unique_ptr<CommunicationLayer> _serialComm;
 
 protected:

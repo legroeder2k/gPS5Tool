@@ -14,7 +14,17 @@ add_custom_command(
         VERBATIM
 )
 
-add_executable(gPS5Tool main.cpp MainApplication.cpp PortChooser.cpp serial/SerialPort.cpp serial/CommunicationLayer.cpp ${GRESOURCE_C})
+set(SOURCE main.cpp
+           MainApplication.cpp
+           PortChooser.cpp
+           serial/SerialPort.cpp
+           serial/CommunicationLayer.cpp
+           data/CodeDatabase.cpp
+)
+
+# Enable -Wall -Wextra and all the good things
+add_compile_options(-Wall -Wextra -Werror)
 
 target_link_libraries(gPS5Tool PRIVATE PkgConfig::GTKMM_VARS PkgConfig::LIBSYSTEMD_VARS)
+add_executable(gPS5Tool ${SOURCE} ${GRESOURCE_C})
 target_include_directories(gPS5Tool PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

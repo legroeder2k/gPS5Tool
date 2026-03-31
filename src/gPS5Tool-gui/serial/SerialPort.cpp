@@ -121,7 +121,7 @@ void SerialPort::send(const std::string& data) const
     while (total < toSend.size())
     {
         const size_t n = write(_fd, toSend.data() + total, toSend.size() - total);
-        if (n < 0) throw std::runtime_error("Could not write to serial port: " + std::string(strerror(errno)));
+        if (n == 0) throw std::runtime_error("Could not write to serial port: " + std::string(strerror(errno)));
         total += n;
     }
 

@@ -31,6 +31,11 @@
 using namespace Gtk;
 using namespace Glib;
 
+MainApplication::MainApplication() : Application("rocks.legroeder.gPS5Tool"), _codeDatabase(CodeDatabase())
+{
+    _codeDatabase.openOrCreateDatabase();
+}
+
 void MainApplication::on_activate()
 {
     _builder = Builder::create_from_resource("/rocks/legroeder/gPS5Tool/ui/mainWindow.ui");
@@ -135,6 +140,7 @@ void MainApplication::on_read_codes_clicked() const
     {
         _serialComm->queueCommand({
             .commandType = CommandType::ReadErrorCodes,
+            .text = "",
             .expectAdditionalLines = false,
             .inEcmMode = true
         });

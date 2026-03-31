@@ -48,7 +48,8 @@ void CommunicationLayer::connect(const SerialPortEntry& entry)
 
     emitEvent(DeviceEvent{
         .type = DeviceEventType::Connected,
-        .text = entry.deviceNode
+        .text = entry.deviceNode,
+        .lines = {}
     });
 }
 
@@ -73,7 +74,8 @@ void CommunicationLayer::disconnect()
 
     emitEvent(DeviceEvent{
         .type = DeviceEventType::Disconnected,
-        .text = ""
+        .text = "",
+        .lines = {}
     });
 }
 
@@ -98,7 +100,8 @@ void CommunicationLayer::workerLoop()
         {
             emitEvent(DeviceEvent{
                 .type = DeviceEventType::Error,
-                .text = ex.what()
+                .text = ex.what(),
+                .lines = {}
             });
         }
     }
@@ -142,7 +145,8 @@ void CommunicationLayer::tryStartNextCommand()
 
     emitEvent(DeviceEvent{
         .type = DeviceEventType::SentCommand,
-        .text = next->text
+        .text = next->text,
+        .lines = {}
     });
 }
 
@@ -167,7 +171,8 @@ void CommunicationLayer::handleNotification(const std::string& line)
 {
     emitEvent(DeviceEvent{
         .type = DeviceEventType::Notification,
-        .text = line
+        .text = line,
+        .lines = {}
     });
 }
 
@@ -177,7 +182,8 @@ void CommunicationLayer::handleReplyLine(const std::string& line)
     {
         emitEvent(DeviceEvent{
             .type = DeviceEventType::RawLine,
-            .text = "Unexpected reply: " + line
+            .text = "Unexpected reply: " + line,
+            .lines = {}
         });
 
         return;
@@ -208,7 +214,8 @@ void CommunicationLayer::handleUnknownLine(const std::string& line)
 
     emitEvent(DeviceEvent{
         .type = DeviceEventType::RawLine,
-        .text = line
+        .text = line,
+        .lines = {}
     });
 }
 
@@ -221,10 +228,12 @@ void CommunicationLayer::finishPendingCommand()
     {
         emitEvent(DeviceEvent{
         .type = DeviceEventType::ErrorCodeReply,
+        .text = "",
         .lines = _pending->replyLines});
     } else {
         emitEvent(DeviceEvent{
             .type = DeviceEventType::Reply,
+            .text = "",
             .lines = _pending->replyLines
         });
     }
@@ -252,6 +261,7 @@ void CommunicationLayer::processCompletedReply(const PendingCommand& command)
         {
             queueCommand({
                 .commandType = CommandType::ReadErrorCodes,
+                .text = "",
                 .expectAdditionalLines = false,
                 .inEcmMode = true
             });
