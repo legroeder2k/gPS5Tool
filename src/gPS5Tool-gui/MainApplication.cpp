@@ -63,7 +63,10 @@ void MainApplication::on_activate()
     _clearCodesButton->signal_clicked().connect(sigc::mem_fun(*this, &MainApplication::on_clear_codes_clicked));
     _updateErrorCodesButton->signal_clicked().connect(sigc::mem_fun(*this, &MainApplication::on_update_error_codes_clicked));
 
-    _dbStatusLabel->set_text("No code database found!");
+    if (auto lastUpdate = _codeDatabase.getLastUpdate(); lastUpdate == "0")
+        _dbStatusLabel->set_text("No code database found!");
+    else
+        _dbStatusLabel->set_text("Last database update: " + lastUpdate);
 
     add_window(*_window);
 
@@ -160,7 +163,13 @@ void MainApplication::on_clear_codes_clicked() const
     }
 }
 
-void MainApplication::on_update_error_codes_clicked() const
+void MainApplication::on_update_error_codes_clicked()
 {
-
+    try {
+    if (_codeDatabase.updateDatabase())
+        _dbStatusLabel->set_text("SUCCESS - Last database update: " + _codeDatabase.getLastUpdate());
+    } catch (const std::exception& e)
+    {
+        _dbStatusLabel->set_text(std::string("Error updating database: ") + e.what());
+    }
 }

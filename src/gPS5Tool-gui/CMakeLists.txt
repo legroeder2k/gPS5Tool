@@ -1,5 +1,7 @@
 pkg_check_modules(GTKMM_VARS REQUIRED IMPORTED_TARGET gtkmm-4.0)
 pkg_check_modules(LIBSYSTEMD_VARS REQUIRED IMPORTED_TARGET libsystemd)
+pkg_check_modules(LIBSQ3_VARS REQUIRED IMPORTED_TARGET libsq3)
+pkg_check_modules(LIBCURL_VARS REQUIRED IMPORTED_TARGET libcurl)
 
 find_program(GLIB_COMPILE_RESOURCES glib-compile-resources REQUIRED)
 
@@ -25,6 +27,7 @@ set(SOURCE main.cpp
 # Enable -Wall -Wextra and all the good things
 add_compile_options(-Wall -Wextra -Werror)
 
-target_link_libraries(gPS5Tool PRIVATE PkgConfig::GTKMM_VARS PkgConfig::LIBSYSTEMD_VARS)
 add_executable(gPS5Tool ${SOURCE} ${GRESOURCE_C})
+
+target_link_libraries(gPS5Tool PRIVATE PkgConfig::GTKMM_VARS PkgConfig::LIBSYSTEMD_VARS PkgConfig::LIBSQ3_VARS PkgConfig::LIBCURL_VARS)
 target_include_directories(gPS5Tool PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
