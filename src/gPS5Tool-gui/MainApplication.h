@@ -56,5 +56,5 @@ protected:
     void on_connect_clicked() const;
     void on_read_codes_clicked() const;
     void on_clear_codes_clicked() const;
-    void on_update_error_codes_clicked();
+    void on_update_error_codes_clicked() const;
 };

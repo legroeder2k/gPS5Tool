@@ -131,7 +131,7 @@ void MainApplication::on_connect_clicked() const
             try {
                 _serialComm->connect(*port);
             } catch (const std::exception& e) {
-                _logBuffer->set_text(e.what());
+                _logBuffer->set_text(e.what() + std::string("\n"));
             }
         }
     }
@@ -163,7 +163,7 @@ void MainApplication::on_clear_codes_clicked() const
     }
 }
 
-void MainApplication::on_update_error_codes_clicked()
+void MainApplication::on_update_error_codes_clicked() const
 {
     try {
     if (_codeDatabase.updateDatabase())
