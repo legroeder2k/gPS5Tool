@@ -4,8 +4,8 @@
   <!-- interface-name gPS5Tool.ui -->
   <requires lib="gtk" version="4.20"/>
   <object class="GtkApplicationWindow" id="main_window">
-    <property name="default-height">450</property>
-    <property name="default-width">850</property>
+    <property name="default-height">650</property>
+    <property name="default-width">950</property>
     <property name="icon-name">pda</property>
     <property name="title">PS5 Debug Tool</property>
     <child>
@@ -43,6 +43,15 @@
                   <object class="GtkSeparator"/>
                 </child>
                 <child>
+                  <object class="GtkButton" id="save_error_log">
+                    <property name="icon-name">document-send</property>
+                    <property name="tooltip-text">Export error log</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSeparator"/>
+                </child>
+                <child>
                   <object class="GtkButton" id="update_codes">
                     <property name="icon-name">document-save</property>
                     <property name="tooltip-markup">Update code database</property>
@@ -56,25 +65,54 @@
               </object>
             </child>
             <child>
-              <object class="GtkScrolledWindow">
-                <property name="hexpand">True</property>
-                <property name="min-content-height">160</property>
-                <property name="vexpand">True</property>
+              <object class="GtkFrame">
+                <property name="label">Informations</property>
                 <child>
-                  <object class="GtkTextView" id="text_output">
-                    <property name="bottom-margin">2</property>
-                    <property name="buffer">log_buffer</property>
-                    <property name="editable">False</property>
-                    <property name="left-margin">2</property>
-                    <property name="right-margin">2</property>
-                    <property name="top-margin">2</property>
+                  <object class="GtkLabel">
+                    <property name="justify">center</property>
+                    <property name="label">Usage: Click "Connect" and select the serial port to connect to the PS5 UART. 
+Use "Read Codes" to view error codes and "Clear Codes" to remove them.
+
+You can download the latest code database from uartcodes.com, courtesy of TheCod3r.</property>
+                    <property name="valign">baseline</property>
                   </object>
                 </child>
                 <layout>
                   <property name="column">0</property>
                   <property name="column-span">3</property>
                   <property name="row">1</property>
-                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame">
+                <property name="label">Error log</property>
+                <property name="vexpand">True</property>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="hexpand">True</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-end">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="min-content-height">160</property>
+                    <property name="vexpand">True</property>
+                    <child>
+                      <object class="GtkTextView" id="text_output">
+                        <property name="bottom-margin">2</property>
+                        <property name="buffer">log_buffer</property>
+                        <property name="editable">False</property>
+                        <property name="left-margin">2</property>
+                        <property name="right-margin">2</property>
+                        <property name="top-margin">2</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">3</property>
+                  <property name="row">2</property>
                 </layout>
               </object>
             </child>
@@ -90,6 +128,313 @@
                 <layout>
                   <property name="column">0</property>
                   <property name="column-span">3</property>
+                  <property name="row">3</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel" id="label-page-1">
+            <property name="label">UART Functions</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkGrid" id="tab-page-2">
+            <child>
+              <object class="GtkActionBar">
+                <child>
+                  <object class="GtkButton" id="open_flash_file">
+                    <property name="icon-name">document-open</property>
+                    <property name="tooltip-text">Open NOR Dump (*.bin)</property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">3</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame">
+                <property name="label">Flash Informations</property>
+                <property name="vexpand">True</property>
+                <child>
+                  <object class="GtkGrid">
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">MD5:</property>
+                        <property name="width-request">180</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_md5</property>
+                        <property name="editable">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Board ID:</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_board_id</property>
+                        <property name="hexpand">True</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Model:</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="nor_model_combo">
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">SKU:</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">3</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_sku</property>
+                        <property name="editable">False</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">3</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Serial:</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">4</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_serial</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">4</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Board SN:</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">5</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_board_serial</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">5</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Region:</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">6</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="nor_region_combo">
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">6</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Kiban ID:</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">7</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_kiban_id</property>
+                        <property name="editable">False</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">7</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">FW (current):</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">8</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_current_fw</property>
+                        <property name="editable">False</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">8</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">FW (min / factory):</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">9</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_fw_limits</property>
+                        <property name="editable">False</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">9</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">MAC LAN;</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">10</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_lan_mac</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">10</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">MAC WiFi:</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">11</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTextView">
+                        <property name="buffer">nor_wlan_mac</property>
+                        <property name="left-margin">5</property>
+                        <property name="pixels-above-lines">5</property>
+                        <property name="pixels-below-lines">5</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">11</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">2</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStatusbar">
+                <child internal-child="message_area">
+                  <object class="GtkBox">
+                    <child>
+                      <object class="GtkLabel" id="nor_status_label"/>
+                    </child>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">3</property>
                   <property name="row">2</property>
                 </layout>
               </object>
@@ -97,8 +442,8 @@
           </object>
         </child>
         <child type="tab">
-          <object class="GtkLabel">
-            <property name="label">UART Functions</property>
+          <object class="GtkLabel" id="label-page-2">
+            <property name="label">NOR Functions</property>
           </object>
         </child>
       </object>
@@ -107,4 +452,18 @@
   <object class="GtkTextBuffer" id="log_buffer">
     <property name="text">Lorem ipsum sit dolor si amicet!</property>
   </object>
+  <object class="GtkTextBuffer" id="nor_lan_mac">
+    <property name="text">00:00:00:00:00</property>
+  </object>
+  <object class="GtkTextBuffer" id="nor_md5">
+    <property name="text"> </property>
+  </object>
+  <object class="GtkTextBuffer" id="nor_board_id"/>
+  <object class="GtkTextBuffer" id="nor_sku"/>
+  <object class="GtkTextBuffer" id="nor_serial"/>
+  <object class="GtkTextBuffer" id="nor_board_serial"/>
+  <object class="GtkTextBuffer" id="nor_kiban_id"/>
+  <object class="GtkTextBuffer" id="nor_current_fw"/>
+  <object class="GtkTextBuffer" id="nor_fw_limits"/>
+  <object class="GtkTextBuffer" id="nor_wlan_mac"/>
 </interface>

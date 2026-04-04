@@ -4,6 +4,7 @@ pkg_check_modules(LIBSQ3_VARS REQUIRED IMPORTED_TARGET libsq3)
 pkg_check_modules(LIBCURL_VARS REQUIRED IMPORTED_TARGET libcurl)
 
 find_program(GLIB_COMPILE_RESOURCES glib-compile-resources REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 
 set(GRESOURCE_XML ${CMAKE_CURRENT_SOURCE_DIR}/resources.gresources.xml)
@@ -16,12 +17,13 @@ add_custom_command(
         VERBATIM
 )
 
-set(SOURCE main.cpp
-           MainApplication.cpp
-           PortChooser.cpp
-           serial/SerialPort.cpp
-           serial/CommunicationLayer.cpp
-           data/CodeDatabase.cpp
+set(SOURCE  main.cpp
+            MainApplication.cpp
+            PortChooser.cpp
+            data/CodeDatabase.cpp
+            flash/NorFlashFile.cpp
+            serial/SerialPort.cpp
+            serial/CommunicationLayer.cpp
 )
 
 # Enable -Wall -Wextra and all the good things
@@ -29,5 +31,5 @@ add_compile_options(-Wall -Wextra -Werror)
 
 add_executable(gPS5Tool ${SOURCE} ${GRESOURCE_C})
 
-target_link_libraries(gPS5Tool PRIVATE PkgConfig::GTKMM_VARS PkgConfig::LIBSYSTEMD_VARS PkgConfig::LIBSQ3_VARS PkgConfig::LIBCURL_VARS)
+target_link_libraries(gPS5Tool PRIVATE PkgConfig::GTKMM_VARS PkgConfig::LIBSYSTEMD_VARS PkgConfig::LIBSQ3_VARS PkgConfig::LIBCURL_VARS OpenSSL::Crypto)
 target_include_directories(gPS5Tool PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

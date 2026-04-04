@@ -5,3 +5,4 @@ GTK based tool for PS5 UART / NOR Flash modifications
 - gtkmm-4.0-devel
 - libsq3-devel
 - libcurl-devel
+- openssl-devel
