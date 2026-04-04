@@ -150,12 +150,24 @@ void MainApplication::on_communication_event() const
                 break;
             case DeviceEventType::Reply:
                 for (const auto& line : event->lines)
-                    _logBuffer->insert_at_cursor(std::format("{}\n", line));
+                    _logBuffer->insert_at_cursor(std::format("<< {}\n", line));
                 break;
             case DeviceEventType::ErrorCodeReply:
-                for (const auto& line : event->lines)
-                    _logBuffer->insert_at_cursor(std::format("->>> {}\n", line));
-                break;
+                {
+                    const auto& first = event->lines.front();
+                    _logBuffer->insert_at_cursor(std::format("<< {}\n", first));
+
+                    const auto& errorCode = first.length() > 20 ? first.substr(12, 8) : "FFFFFFFF";
+                    if (errorCode != "FFFFFFFF")
+                    {
+                        auto errorText = _codeDatabase.lookupErrorCode(errorCode);
+                        if (errorText.empty())
+                            errorText = "Unknown error code";
+
+                        _logBuffer->insert_at_cursor(std::format("  {}\n", errorText));
+                    }
+                    break;
+                }
             case DeviceEventType::Error:
                 _logBuffer->insert_at_cursor(std::format("Error: {}\n", event->text));
                 break;
@@ -189,6 +201,8 @@ void MainApplication::on_read_codes_clicked() const
 {
     if (_serialComm->isConnected())
     {
+        _serialComm->resetErrorCodeCounter();
+
         _serialComm->queueCommand({
             .commandType = CommandType::ReadErrorCodes,
             .text = "",

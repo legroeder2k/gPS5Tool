@@ -89,6 +89,7 @@ public:
     void disconnect();
 
     bool isConnected() const { return _running; };
+    void resetErrorCodeCounter() { _errorLogPostion = 0; }
 
     void queueCommand(const OutgoingCommand& command);
 

@@ -249,17 +249,17 @@ void CommunicationLayer::processCompletedReply(const PendingCommand& command)
 
     const auto& first = command.replyLines[0];
 
-    if (command.commandType == CommandType::ReadErrorCodes && first.starts_with("OK "))
+    if (command.commandType == CommandType::ReadErrorCodes && first.starts_with("OK ") && _errorLogPostion.load() < 39)
     {
         // increment our counter...
         _errorLogPostion.fetch_add(1);
 
-        // line is OK errlog 123
-        // extract the error code from the line
-        auto errorCode = std::stoi(first.substr(10));
-        if (errorCode < 5)
+        // line ist like this: OK 00000000 FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFF FFFF FFFF FFFF
+        // extract the error code (OK 00000000 <ERRORCODE> <DATA>...) from the line
+        const auto errorCode = first.length() > 20 ? first.substr(12, 8) : "FFFFFFFF";
+        if (errorCode != "FFFFFFFF")
         {
-            queueCommand({
+                queueCommand({
                 .commandType = CommandType::ReadErrorCodes,
                 .text = "",
                 .expectAdditionalLines = false,

@@ -110,7 +110,7 @@ void SerialPort::send(const std::string& data) const
         {
             sum += c;
         }
-        toSend += format(":{:X}", sum & 0xff);
+        toSend += format(":{:02X}", sum & 0xff);
     }
 
     // Append a newline
