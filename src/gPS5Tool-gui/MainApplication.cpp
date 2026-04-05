@@ -75,10 +75,12 @@ void MainApplication::on_activate()
     _communicationDispatcher.connect(sigc::mem_fun(*this, &MainApplication::on_communication_event));
 
     _logBuffer = _builder->get_object<TextBuffer>("log_buffer");
+    _logView = _builder->get_object<TextView>("log_view");
     _connectButton = _builder->get_object<Button>("connect_button");
     _readCodesButton = _builder->get_object<Button>("read_codes");
     _clearCodesButton = _builder->get_object<Button>("clear_codes");
     _saveErrorLogButton = _builder->get_object<Button>("save_error_log");
+    _clearErrorLogButton = _builder->get_object<Button>("clear_error_log");
     _updateErrorCodesButton = _builder->get_object<Button>("update_codes");
     _dbStatusLabel = _builder->get_object<Label>("db_status_label");
 
@@ -89,6 +91,7 @@ void MainApplication::on_activate()
     _readCodesButton->signal_clicked().connect(sigc::mem_fun(*this, &MainApplication::on_read_codes_clicked));
     _clearCodesButton->signal_clicked().connect(sigc::mem_fun(*this, &MainApplication::on_clear_codes_clicked));
     _saveErrorLogButton->signal_clicked().connect(sigc::mem_fun(*this, &MainApplication::on_save_error_log_clicked));
+    _clearErrorLogButton->signal_clicked().connect(sigc::mem_fun(*this, &MainApplication::on_clear_error_log_clicked));
     _updateErrorCodesButton->signal_clicked().connect(sigc::mem_fun(*this, &MainApplication::on_update_error_codes_clicked));
 
     if (const auto lastUpdate = _codeDatabase.getLastUpdate(); lastUpdate == "0")
@@ -239,6 +242,11 @@ void MainApplication::on_save_error_log_clicked()
     _fileDialog->set_filters(_storeErrorLogFilters);
     _fileDialog->set_default_filter(_txtFileFilter);
     _fileDialog->save(*_window, sigc::mem_fun(*this, &MainApplication::on_save_error_log_fileSelected));
+}
+
+void MainApplication::on_clear_error_log_clicked()
+{
+    _logBuffer->set_text("");
 }
 
 void MainApplication::on_update_error_codes_clicked() const

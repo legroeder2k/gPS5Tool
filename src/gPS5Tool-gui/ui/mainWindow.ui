@@ -2,7 +2,7 @@
 <!-- Created with Cambalache 1.0 -->
 <interface>
   <!-- interface-name gPS5Tool.ui -->
-  <requires lib="gtk" version="4.20"/>
+  <requires lib="gtk" version="4.10"/>
   <object class="GtkApplicationWindow" id="main_window">
     <property name="default-height">650</property>
     <property name="default-width">950</property>
@@ -46,6 +46,12 @@
                   <object class="GtkButton" id="save_error_log">
                     <property name="icon-name">document-send</property>
                     <property name="tooltip-text">Export error log</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="clear_error_log">
+                    <property name="icon-name">document-revert</property>
+                    <property name="tooltip-text">Clear error log</property>
                   </object>
                 </child>
                 <child>
@@ -98,7 +104,7 @@ You can download the latest code database from uartcodes.com, courtesy of TheCod
                     <property name="min-content-height">160</property>
                     <property name="vexpand">True</property>
                     <child>
-                      <object class="GtkTextView" id="text_output">
+                      <object class="GtkTextView" id="log_view">
                         <property name="bottom-margin">2</property>
                         <property name="buffer">log_buffer</property>
                         <property name="editable">False</property>
@@ -374,7 +380,7 @@ You can download the latest code database from uartcodes.com, courtesy of TheCod
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="label">MAC LAN;</property>
+                        <property name="label">MAC LAN:</property>
                         <layout>
                           <property name="column">0</property>
                           <property name="row">10</property>

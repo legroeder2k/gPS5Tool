@@ -1,6 +1,6 @@
 pkg_check_modules(GTKMM_VARS REQUIRED IMPORTED_TARGET gtkmm-4.0)
 pkg_check_modules(LIBSYSTEMD_VARS REQUIRED IMPORTED_TARGET libsystemd)
-pkg_check_modules(LIBSQ3_VARS REQUIRED IMPORTED_TARGET libsq3)
+pkg_check_modules(LIBSQ3_VARS REQUIRED IMPORTED_TARGET sqlite3)
 pkg_check_modules(LIBCURL_VARS REQUIRED IMPORTED_TARGET libcurl)
 
 find_program(GLIB_COMPILE_RESOURCES glib-compile-resources REQUIRED)

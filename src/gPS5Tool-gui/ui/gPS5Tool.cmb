@@ -2,6 +2,6 @@
 <!DOCTYPE cambalache-project SYSTEM "cambalache-project.dtd">
 <!-- Created with Cambalache 1.0 -->
 <cambalache-project version="1.0.0" target_tk="gtk-4.0" depends="libadwaita-1">
-  <ui filename="mainWindow.ui" sha256="b3a4d3c9de3cc88daa956d29c75d0d88a6163e7e71fd2826827782a5c84c7b35"/>
+  <ui filename="mainWindow.ui" sha256="e3db0e50870bbd7bcb2d28d978e9ccea86ce66a65bb9f9f38fac22b54f3b0d1a"/>
   <ui filename="portChooser.ui" sha256="be3bf61582a572fa25c08618fb31ca52ce9e16b6bbb1cda2384e861fd6accdf9"/>
 </cambalache-project>

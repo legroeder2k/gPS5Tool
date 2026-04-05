@@ -61,6 +61,7 @@ private:
     Glib::RefPtr<Gtk::Button> _readCodesButton = nullptr;
     Glib::RefPtr<Gtk::Button> _clearCodesButton = nullptr;
     Glib::RefPtr<Gtk::Button> _saveErrorLogButton = nullptr;
+    Glib::RefPtr<Gtk::Button> _clearErrorLogButton = nullptr;
     Glib::RefPtr<Gtk::Button> _updateErrorCodesButton = nullptr;
 
     Glib::RefPtr<Gtk::Label> _dbStatusLabel = nullptr;
@@ -98,6 +99,7 @@ protected:
     void on_read_codes_clicked() const;
     void on_clear_codes_clicked() const;
     void on_save_error_log_clicked();
+    void on_clear_error_log_clicked();
     void on_update_error_codes_clicked() const;
     void on_save_error_log_fileSelected(const Glib::RefPtr<Gio::AsyncResult>&) const;
 
